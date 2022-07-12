@@ -1,9 +1,15 @@
 from django.db import models
 from django.urls import reverse
 
+
+
+class Platform(models.Model):
+    name = models.CharField(max_length=50)
+
 class Game(models.Model):
     name = models.CharField(max_length=100)
     developer = models.CharField(max_length=100)
+    platforms = models.ManyToManyField(Platform)
     
     def __str__(self):
         return self.name
