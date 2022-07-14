@@ -1,11 +1,12 @@
 {% extends 'base.html' %} {% block content %}
 
-<h1>Platforms</h1>
+<h1 class="white-text">Platforms</h1>
+<hr /><br />
 
 {% for platform in object_list %}
 <div class="card">
   <a href="{% url 'platforms_detail' platform.id %}">
-    <div class="card-content">
+    <div class="card-content black-text">
       <span class="card-title"
         >
         <span>{{ platform.name }}</span></span
@@ -14,5 +15,8 @@
   </a>
 </div>
 {% endfor %}
-<a href="{% url 'platforms_create' %}">Add Platform</a>
+<div class="center-align">
+  <a class="orange btn" href="{% url 'platforms_create' %}">Add Platform</a>
+</div>
+<br />
 {% endblock %}

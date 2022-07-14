@@ -1,6 +1,11 @@
 {% extends 'base.html' %} {% block content %}
-<h1>Home</h1>
-<hr />
-<p>Show me them games!</p>
+<h1 class="white-text">Home</h1>
+<hr /><br /><br />
+<div class="center-align">
+    <a class="card-panel orange white-text" href="{% url 'index' %}">My Games</a>
+    <a class="card-panel orange white-text" href="{% url 'platform_index' %}">My Platforms</a>
+</div>
+<br />
+<br />
 
 {% endblock %}

@@ -1,11 +1,12 @@
 {% extends 'base.html' %} {% block content %}
 
-<h1>Platform Details</h1>
+<h1 class="white-text">Platform Details</h1>
+<hr /><br />
 
 <div class="card">
   <a href="{% url 'platforms_detail' platform.id %}">
     <div class="card-content">
-      <span class="card-title">
+      <span class="card-title black-text">
         <span>{{ platform.name }}</span>
     </div>
     <div class="card-action">

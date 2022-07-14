@@ -5,6 +5,7 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from main_app.forms import AchievementForm
 from .models import Game, Platform, Photo
@@ -26,10 +27,12 @@ def home(request):
 def about(request):
   return render(request, 'about.html')
 
+@login_required
 def games_index(request):
     games = Game.objects.filter(user=request.user)
     return render(request, 'games/index.html', {'games': games})
 
+@login_required
 def games_detail(request, game_id):
     game = Game.objects.get(id=game_id)
     available_platforms = Platform.objects.exclude(
@@ -41,6 +44,7 @@ def games_detail(request, game_id):
         'platforms': available_platforms
     })
 
+@login_required
 def add_achievement(request, game_id):
     form = AchievementForm(request.POST)
     if form.is_valid():
@@ -49,15 +53,17 @@ def add_achievement(request, game_id):
         new_achievement.save()
     return redirect('detail', game_id=game_id)
 
+@login_required
 def assoc_platform(request, game_id, platform_id):
     Game.objects.get(id=game_id).platforms.add(platform_id)
     return redirect('detail', game_id=game_id)
 
+@login_required
 def assoc_platform_delete(request, game_id, platform_id):
     Game.objects.get(id=game_id).platforms.remove(platform_id)
     return redirect('detail', game_id=game_id)
 
-
+@login_required
 def add_photo(request, game_id):
     photo_file = request.FILES.get('photo-file', None)
     if photo_file:
@@ -87,44 +93,40 @@ def signup(request):
     return render(request, 'registration/signup.html', context)
 
 
-class Games:
-    def __init__(self, name, developer):
-        self.name = name
-        self.developer = developer
 
-class GameCreate(CreateView):
+class GameCreate(LoginRequiredMixin, CreateView):
     model = Game
-    fields = ['name', 'developer']
+    fields = ['name', 'developer', 'coverart']
     success_url = '/games/'
-
-class GameUpdate(UpdateView):
-    model = Game
-    fields = ['name', 'developer']
     def form_valid(self, form):
         form.instance.user = self.request.user
         return super().form_valid(form)
 
-class GameDelete(DeleteView):
+class GameUpdate(LoginRequiredMixin, UpdateView):
+    model = Game
+    fields = ['name', 'developer']
+
+class GameDelete(LoginRequiredMixin, DeleteView):
     model = Game
     success_url = '/games/'
 
-class PlatformList(ListView):
+class PlatformList(LoginRequiredMixin, ListView):
     model = Platform
     template_name = 'platforms/index.html'
 
-class PlatformDetail(DetailView):
+class PlatformDetail(LoginRequiredMixin, DetailView):
     model = Platform
     template_name = 'platforms/detail.html'
 
-class PlatformCreate(CreateView):
+class PlatformCreate(LoginRequiredMixin, CreateView):
     model = Platform
     fields = ['name']
     success_url = '/platforms/'
 
-class PlatformUpdate(UpdateView):
+class PlatformUpdate(LoginRequiredMixin, UpdateView):
     model = Platform
     fields = '__all__'
 
-class PlatformDelete(DeleteView):
+class PlatformDelete(LoginRequiredMixin, DeleteView):
     model = Platform
     success_url = '/platforms/'

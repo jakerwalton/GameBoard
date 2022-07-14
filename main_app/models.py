@@ -1,6 +1,5 @@
 from django.db import models
 from django.urls import reverse
-from datetime import date
 from django.contrib.auth.models import User
 
 
@@ -11,6 +10,7 @@ class Platform(models.Model):
 class Game(models.Model):
     name = models.CharField(max_length=100)
     developer = models.CharField(max_length=100)
+    coverart = models.CharField(max_length=250)
     platforms = models.ManyToManyField(Platform)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     
@@ -24,7 +24,7 @@ class Achievements(models.Model):
     date = models.DateField('Date Earned')
     achievement = models.CharField(max_length=100)
 
-    game = models.ForeignKey(Game, on_delete=models.CASCADE)
+    game = models.ForeignKey(Game, on_delete = models.CASCADE)
 
     def __str__(self):
         return f'"{self.achievement}" earned on {self.date}'
