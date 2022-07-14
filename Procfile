@@ -1,0 +1,1 @@
+web: gunicorn gameboard.wsgi
