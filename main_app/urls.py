@@ -17,4 +17,6 @@ urlpatterns = [
     path('platforms/create/', views.PlatformCreate.as_view(), name='platforms_create'),
     path('platforms/<int:pk>/update/', views.PlatformUpdate.as_view(), name='platforms_update'),
     path('platforms/<int:pk>/delete/', views.PlatformDelete.as_view(), name='platforms_delete'),
+    path('games/<int:game_id>/add_photo/', views.add_photo, name='add_photo'),
+    path('accounts/signup/', views.signup, name='signup'),
 ]
