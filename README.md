@@ -5,6 +5,7 @@
 - **Materialize CSS**
 - **Python**
 - **Django**
+- **PostgreSQL**
 - **Amazon Web Service**
 
 ### What It Is
